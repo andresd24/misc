@@ -8,6 +8,10 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { Page2Page } from './../pages/page2/page2';
 
+import { IonicStorageModule } from '@ionic/storage';
+import { SettingsService } from '../providers/settings/settings';
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -16,7 +20,8 @@ import { Page2Page } from './../pages/page2/page2';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -28,6 +33,7 @@ import { Page2Page } from './../pages/page2/page2';
   providers: [
     StatusBar,
     SplashScreen,
+    SettingsService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

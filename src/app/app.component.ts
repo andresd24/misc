@@ -1,21 +1,42 @@
+import { SettingsService } from './../providers/settings/settings';
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { IntroduccionPage } from '../pages/introduccion/introduccion';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(private platform: Platform, 
+              private statusBar: StatusBar, 
+              private splashScreen: SplashScreen,
+              private _settings: SettingsService) {
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+
+      console.log("platform ready");
+      this._settings.load_storage()
+            .then( ()=> {
+              console.log("load storage complete");
+              if (this._settings.settings.show_tutorial) {
+                console.log("show tutorial");
+                this.rootPage = "IntroduccionPage";
+              }
+              else {
+                console.log("hide tutorial");
+                this.rootPage = HomePage;
+              }
+
+               statusBar.styleDefault();
+              splashScreen.hide();
+        
+            });
+
     });
   }
 }
