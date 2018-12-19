@@ -32,6 +32,14 @@ export class MyApp {
                 this.rootPage = HomePage;
               }
 
+              this.platform.pause.subscribe( ()=> {
+                  console.log("the application will stop...");
+              })
+
+              this.platform.resume.subscribe( ()=> {
+                  console.log("the application will resume...");
+              })
+
                statusBar.styleDefault();
               splashScreen.hide();
         

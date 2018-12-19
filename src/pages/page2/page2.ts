@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
   selector: 'page-page2',
@@ -7,7 +9,10 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class Page2Page {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private _alertCtrl: AlertController,
+              private _loadingCtrl: LoadingController) {
   }
 
 
@@ -18,25 +23,48 @@ export class Page2Page {
   ionViewCanEnter(){
     console.log("ionViewCanEnter");
 
-    let number = Math.round(Math.random() * 10);
-    console.log(number);
+    let promise = new Promise( (resolve, reject)=> {
 
-    if ( number >= 5) {
-      return true;
-    }
-    else {
-      return false;
-    }
+      let confirm = this._alertCtrl.create({
+        title: 'Are you sure?',
+        message: "Are you sure that you want to enter?",
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => resolve(false)
+          },
+          {
+            text: "Yes, I'm sure",
+            handler: () => resolve(true)
+          }
+        ]
+      });
+  
+      confirm.present();
+  
+    });
+
+
+
+    return promise;
   }
+
 
   ionViewCanLeave(){
     console.log("ionViewCanLeave"); 
 
     console.log("wait two seconds to exit...")
 
+    let loading = this._loadingCtrl.create({
+        content: "Wait please ..."
+    });
+
+    loading.present();
+
     let promise = new Promise( (resolve, reject) => {
       
         setTimeout(() => {
+            loading.dismiss();
             resolve(true); 
         }, 2000);
 
@@ -59,8 +87,6 @@ export class Page2Page {
   }
 
 
-
-  
   ionViewWillLeave(){
     console.log("ionViewWillLeave");  
   }
