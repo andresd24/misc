@@ -34,7 +34,7 @@ export class Page2Page {
             handler: () => resolve(false)
           },
           {
-            text: "Yes, I'm sure",
+            text: "Sure!",
             handler: () => resolve(true)
           }
         ]
